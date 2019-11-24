@@ -11,6 +11,8 @@ import {
   faInfoCircle
 } from "@fortawesome/free-solid-svg-icons"
 
+const NotificationContext = React.createContext()
+
 const Container = styled.div`
   background: ${props => props.background};
   text-align: left;
@@ -67,7 +69,7 @@ const Message = styled.h6`
 
 const emitter = new ee()
 
-export const notify = (msg, type) => {
+const notify = (msg, type) => {
   emitter.emit("notification", msg, type)
 }
 
@@ -77,6 +79,7 @@ const Notification = () => {
   const [type, setType] = React.useState("")
   const [icon, setIcon] = React.useState("")
   const [background, setBackground] = React.useState("")
+  const [isShowing, setIsShowing] = React.useState(false)
 
   const [title, setTitle] = React.useState("")
 
@@ -161,4 +164,21 @@ Notification.propTypes = {
   type: PropTypes.string
 }
 
-export default Notification
+const NotificationsWithToastrProvider = ({ children }) => (
+  <NotificationContext.Provider value={notify}>
+    <Notification />
+    {children}
+  </NotificationContext.Provider>
+)
+
+const useNotificationsWithToastr = () => {
+  const context = React.useContext(NotificationContext)
+  if (context === undefined) {
+    throw new Error(
+      "useNotificationsWithToastr must be used within a NotificationsWithToastrProvider"
+    )
+  }
+  return context
+}
+
+export { useNotificationsWithToastr, NotificationsWithToastrProvider }

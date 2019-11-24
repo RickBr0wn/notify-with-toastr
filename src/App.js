@@ -1,12 +1,13 @@
 import React from "react"
 import logo from "./logo.svg"
 import "./App.css"
-import Notification, { notify } from "./NotificationWithToastr"
+import { useNotificationsWithToastr } from "./NotificationWithToastr"
 
 function App() {
+  const notify = useNotificationsWithToastr()
+
   return (
     <div className="App">
-      <Notification />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
