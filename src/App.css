@@ -19,4 +19,10 @@
 
 .App-link {
   color: #09d3ac;
+  border: 1px solid #09d3ac;
+  background: transparent;
+  padding: 10px 15px;
+  font-size: 18px;
+  width: 200px;
+  text-transform: uppercase;
 }
